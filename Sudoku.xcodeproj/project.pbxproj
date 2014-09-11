@@ -112,6 +112,7 @@
 		65AE119F19C25C7700848723 /* Sudoku */ = {
 			isa = PBXGroup;
 			children = (
+				65AE11CE19C25C8200848723 /* iPad */,
 				65AE11A819C25C7700848723 /* DCSLAppDelegate.h */,
 				65AE11A919C25C7700848723 /* DCSLAppDelegate.m */,
 				65AE11AB19C25C7700848723 /* Main.storyboard */,
@@ -150,6 +151,13 @@
 				65AE11C119C25C7700848723 /* InfoPlist.strings */,
 			);
 			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		65AE11CE19C25C8200848723 /* iPad */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = iPad;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -380,7 +388,9 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Sudoku/Sudoku-Prefix.pch";
 				INFOPLIST_FILE = "Sudoku/Sudoku-Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 7.1;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				TARGETED_DEVICE_FAMILY = 2;
 				WRAPPER_EXTENSION = app;
 			};
 			name = Debug;
@@ -393,7 +403,9 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Sudoku/Sudoku-Prefix.pch";
 				INFOPLIST_FILE = "Sudoku/Sudoku-Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 7.1;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				TARGETED_DEVICE_FAMILY = 2;
 				WRAPPER_EXTENSION = app;
 			};
 			name = Release;
