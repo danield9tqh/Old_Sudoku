@@ -8,6 +8,7 @@
 
 #import "DCSLViewController.h"
 
+
 int initArray[9][9] = {
     {7, 0, 0, 4, 2, 0, 0, 0, 9},
     {0, 0, 9, 5, 0, 0, 0, 0, 4},
@@ -20,8 +21,9 @@ int initArray[9][9] = {
     {8, 0, 0, 3, 0, 2, 7, 4, 0}};
 
 
+
 @interface DCSLViewController (){
-    UIButton* _button1;
+
 
 }
 
@@ -34,29 +36,78 @@ int initArray[9][9] = {
 {
     [super viewDidLoad];
 	// Do any additional setup after loading the view, typically from a nib.
-    CGRect buttonFrame = CGRectMake(20, 20, 50, 50);
-    _button1 = [[UIButton alloc] initWithFrame:buttonFrame];
-    _button1.backgroundColor = [UIColor blueColor];
-    [_button1 addTarget:self action:@selector(buttonPresses:) forControlEvents:UIControlEventTouchUpInside];
-    [_button1 setBackgroundImage:[self imageWithColor: [UIColor greenColor]] forState:UIControlStateHighlighted];
-    [self.view addSubview:_button1];
+
+    // Create Grid View
+    double gridViewSize = 506;
+    CGRect gridFrame = CGRectMake(110, 50, gridViewSize, gridViewSize);
+    UIView* gridView = [[UIView alloc] initWithFrame:gridFrame];
+    gridView.backgroundColor = [UIColor blackColor];
+    [self.view addSubview:gridView];
     
-}
-- (IBAction)buttonDown:(id)sender
-{
-    NSLog(@"Button 1 is highlighted");
+    //Array for sudoku cells
+    NSMutableArray* cellColumnArray = [[NSMutableArray alloc] initWithCapacity:9];
+    for (int i =0; i<9; i++) {
+        NSMutableArray* cellRowArray = [[NSMutableArray alloc] initWithCapacity:9];
+        [cellColumnArray insertObject:cellRowArray atIndex:i];
+    }
+
+    // column for loop
+    for (int i = 0; i< sizeof(initArray)/sizeof(initArray[0]); i++) {
+        
+        // row for loop
+        for (int j = 0; j< sizeof(initArray)/sizeof(initArray[0]); j++) {
+            
+            //Code for extra line inbetween 3x3 squares
+            int extraX = 3;
+            int extraY = 3;
+//            if (i/3 == 0) {
+//                extraX += 3;
+//            }
+//            if (j/3 == 0){
+//                extraY += 3;
+//            }
+            
+            // Create button and button frame
+            UIButton* button;
+            CGRect buttonFrame = CGRectMake(i*55 + 5 + (i/3)*extraY, j*55 + 5 + (j/3)*(extraX), 50, 50);
+            button= [[UIButton alloc] initWithFrame:buttonFrame];
+            button.backgroundColor = [UIColor whiteColor];
+            
+            NSString* buttonTitle = @"";
+            if (initArray[i][j] != 0) {
+                buttonTitle = [NSString stringWithFormat:@"%i", initArray[i][j]];
+            }
+
+            
+            [button setTitle:buttonTitle forState: UIControlStateNormal];
+            [button setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
+            
+            // Highlight button when clicked
+            [button addTarget:self action:@selector(buttonPresses:) forControlEvents:UIControlEventTouchUpInside];
+            [button setBackgroundImage:[self imageWithColor: [UIColor yellowColor]] forState:UIControlStateHighlighted];
+            [gridView addSubview:button];
+            button.tag = (i+1)*10 + (j+1);
+            
+            //Insert the button into the array
+            [[cellColumnArray objectAtIndex:i] insertObject:button atIndex:j];
+        }
+    }
+    
+    
     
     
 }
 
 - (IBAction)buttonPresses:(id)sender
 {
-    NSLog(@"Button 1 was pressed.");
+    int row = ([sender tag] %10);
+    int col = ([sender tag] /10);
+    NSLog(@"Button in Row %d and Column %d was pressed", row, col);
     
 }
 
-//
-// http://stackoverflow.com/questions/990976/how-to-create-a-colored-1x1-uiimage-on-the-iphone-dynamically
+// Method from:
+// stackoverflow.com/questions/990976/how-to-create-a-colored-1x1-uiimage-on-the-iphone-dynamically
 
 - (UIImage *)imageWithColor:(UIColor *)color {
     CGRect rect = CGRectMake(0, 0, 50 , 50);
